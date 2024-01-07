@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -42,19 +43,6 @@ module.exports = {
                     },
                 ],
             },
-            {
-                test: /\.(ts|tsx)$/,
-                enforce: 'pre',
-                use: [
-                    {
-                        options: {
-                            eslintPath: require.resolve('eslint'),
-                        },
-                        loader: require.resolve('eslint-loader'),
-                    },
-                ],
-                exclude: /node_modules/,
-            },
         ],
     },
     devServer: {
@@ -65,6 +53,12 @@ module.exports = {
             template: './src/index.html',
             filename: 'index.html',
             favicon: './src/assets/dist/img/reactIcon.png',
+        }),
+        new ESLintPlugin({
+            exclude: [
+              `/node_modules/`,
+              `/bower_components/`,
+            ],
         }),
     ],
 };
